@@ -12,9 +12,10 @@ public class GetMinimumDifference {
         System.out.println(solution.getMinimumDifference(root1));
         assert solution.getMinimumDifference(root1) == 9;
 
+        Solution solution2 = new Solution();
         Assembler assembler2 = new Assembler(new Integer[] { 1, null, 2 });
         TreeNode root2 = assembler2.assembleTree(0);
-        System.out.println(solution.getMinimumDifference(root2));
+        System.out.println(solution2.getMinimumDifference(root2));
         assert (solution.getMinimumDifference(root2) == 1);
 
     }
