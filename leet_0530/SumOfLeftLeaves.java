@@ -2,21 +2,19 @@ package leet_0530;
 
 import java.util.Objects;
 
-public class GetMinimumDifference {
+public class SumOfLeftLeaves {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
 
-        Assembler assembler1 = new Assembler(new Integer[] { 236, 104, 701, null, 227, null, 911 });
+        Assembler assembler1 = new Assembler(new Integer[] { 3, 9, 20, null, null, 15, 7 });
         TreeNode root1 = assembler1.assembleTree(0);
-        System.out.println(solution.getMinimumDifference(root1));
-        assert solution.getMinimumDifference(root1) == 9;
+        System.out.println(solution.sumOfLeftLeaves(root1));
 
         Solution solution2 = new Solution();
-        Assembler assembler2 = new Assembler(new Integer[] { 1, null, 2 });
+        Assembler assembler2 = new Assembler(new Integer[] { 1 });
         TreeNode root2 = assembler2.assembleTree(0);
-        System.out.println(solution2.getMinimumDifference(root2));
-        assert (solution.getMinimumDifference(root2) == 1);
+        System.out.println(solution2.sumOfLeftLeaves(root2));
 
     }
 
@@ -64,28 +62,20 @@ public class GetMinimumDifference {
     }
 
     public static class Solution {
+        int sum = 0;
 
-        private int minDiff = Integer.MAX_VALUE;
-        private int pre = -1;
-
-        public int getMinimumDifference(TreeNode root) {
-            dfs(root);
-            return minDiff;
+        public int sumOfLeftLeaves(TreeNode root) {
+            dfs(root, false);
+            return sum;
         }
 
-        private void dfs(TreeNode root) {
+        private void dfs(TreeNode root, boolean isLeft) {
             if (root == null)
                 return;
-            dfs(root.left);
-            this.update(pre, root.val);
-            pre = root.val;
-            dfs(root.right);
-        }
-
-        private void update(int pre, int val) {
-            if (pre == -1)
-                return;
-            minDiff = Math.min(minDiff, val - pre);
+            if (isLeft && root.left == null && root.right == null)
+                sum += root.val;
+            dfs(root.left, true);
+            dfs(root.right, false);
         }
     }
 
