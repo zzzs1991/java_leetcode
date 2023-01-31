@@ -8,17 +8,18 @@ import java.util.stream.IntStream;
 public class FindModeInBST {
 
     public static void main(String[] args) {
-        Solution solution = new Solution();
+        Solution solution1 = new Solution();
 
-        Assembler assembler1 = new Assembler(new Integer[] { 0, null, 2, 2 });
+        Assembler assembler1 = new Assembler(new Integer[] { 0, null, 2, null, null, 2 });
         TreeNode root1 = assembler1.assembleTree(0);
+        System.out.println(solution1.findMode(root1)[0]);
+        assert solution1.findMode(root1)[0] == 2;
 
-        assert solution.findMode(root1)[0] == 2;
-
+        Solution solution2 = new Solution();
         Assembler assembler2 = new Assembler(new Integer[] { 7, 7, 8, 5, 7, 8, 8 });
         TreeNode root2 = assembler2.assembleTree(0);
-
-        assert solution.findMode(root2)[1] == 8;
+        System.out.println(solution2.findMode(root2)[1] == 8);
+        assert solution2.findMode(root2)[1] == 8;
 
     }
 
@@ -69,8 +70,37 @@ public class FindModeInBST {
         private List<Integer> result = new ArrayList<>();
         private int base, count, maxCount;
 
+        // public int[] findMode(TreeNode root) {
+        //     this.dfs(root);
+        //     int[] answer = new int[result.size()];
+        //     IntStream.range(0, result.size()).forEach(num -> {
+        //         answer[num] = result.get(num);
+        //     });
+        //     return answer;
+        // }
+
+        // morris 遍历
         public int[] findMode(TreeNode root) {
-            this.dfs(root);
+            TreeNode cur = root, pre = null;
+            while (cur != null) {
+                if (cur.left == null) {
+                    update(cur.val);
+                    cur = cur.right;
+                    continue;
+                }
+                pre = cur.left;
+                while (pre.right != null && pre.right != cur) {
+                    pre = pre.right;
+                }
+                if (pre.right == null) {
+                    pre.right = cur;
+                    cur = cur.left;
+                } else {
+                    pre.right = null;
+                    update(cur.val);
+                    cur = cur.right;
+                }
+            }
             int[] answer = new int[result.size()];
             IntStream.range(0, result.size()).forEach(num -> {
                 answer[num] = result.get(num);
@@ -87,6 +117,7 @@ public class FindModeInBST {
         }
 
         private void update(int val) {
+            System.out.println(val);
             if (val == base) {
                 count++;
             } else {
