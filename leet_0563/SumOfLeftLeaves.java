@@ -7,12 +7,12 @@ public class SumOfLeftLeaves {
     public static void main(String[] args) {
         Solution solution = new Solution();
 
-        Assembler assembler1 = new Assembler(new Integer[] { 1,2,3 });
+        Assembler assembler1 = new Assembler(new Integer[] { 1, 2, 3 });
         TreeNode root1 = assembler1.assembleTree(0);
         System.out.println(solution.findTilt(root1));
 
         Solution solution2 = new Solution();
-        Assembler assembler2 = new Assembler(new Integer[] { 4,2,9,3,5,null,7 });
+        Assembler assembler2 = new Assembler(new Integer[] { 4, 2, 9, 3, 5, null, 7 });
         TreeNode root2 = assembler2.assembleTree(0);
         System.out.println(solution2.findTilt(root2));
 
