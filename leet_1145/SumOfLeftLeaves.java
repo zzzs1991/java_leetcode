@@ -7,14 +7,14 @@ public class SumOfLeftLeaves {
     public static void main(String[] args) {
         Solution solution = new Solution();
 
-        Assembler assembler1 = new Assembler(new Integer[] { 3, 9, 20, null, null, 15, 7 });
+        Assembler assembler1 = new Assembler(new Integer[] { 1,2,3,4,5,6,7,8,9,10,11});
         TreeNode root1 = assembler1.assembleTree(0);
-        System.out.println(solution.btreeGameWinningMove(root1, 1, 1));
+        System.out.println(solution.btreeGameWinningMove(root1, 11, 3));
 
         Solution solution2 = new Solution();
-        Assembler assembler2 = new Assembler(new Integer[] { 1 });
+        Assembler assembler2 = new Assembler(new Integer[] { 1,2,3});
         TreeNode root2 = assembler2.assembleTree(0);
-        System.out.println(solution2.btreeGameWinningMove(root2,1,1));
+        System.out.println(solution2.btreeGameWinningMove(root2,3,1));
 
     }
 
@@ -82,9 +82,28 @@ public class SumOfLeftLeaves {
 
 
          */
+        int leftTreeNum;
+        int rightTreeNum;
+
         public boolean btreeGameWinningMove(TreeNode root, int n, int x) {
-            return true;
+            dfs(root, x);
+            return (leftTreeNum * 2 > n) || (rightTreeNum * 2 > n) || (leftTreeNum + rightTreeNum + 1) * 2 < n ;
         }
+
+        private int dfs(TreeNode root, int x) {
+            if (root == null) {
+                return 0;
+            }
+            int left = dfs(root.left, x);
+            int right = dfs(root.right, x);
+            if (x == root.val) {
+                leftTreeNum = left;
+                rightTreeNum = right;
+            }
+            return left + right + 1;
+        }
+
+
     }
 
 }
